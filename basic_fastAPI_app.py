@@ -17,7 +17,8 @@ async def root():
 
 @app.post("/createposts")
 def create_posts(new_post: Post):
-    print(new_post)
+    print(new_post.title)
+    print(new_post.content)
     return {"data":"new post"}
 
 if __name__ == "__main__":
