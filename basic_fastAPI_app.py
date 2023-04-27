@@ -7,7 +7,14 @@ import uvicorn
 
 app = FastAPI()
 
-### For data validation - Only title and content is allowed. Both in string format. 
+'''
+For data validation - Only title and content is allowed. Both in string format. 
+pydantic model used for Validation 
+
+When we create a new post, this is stored in a pydantic model. 
+Pydantic model has a method called .dict which will convert the data into a dictionary. 
+'''
+
 class Post(BaseModel):
     title: str
     content: str
@@ -19,12 +26,11 @@ async def root():
     return {"message": "Hello World"}
 
 @app.post("/createposts")
-def create_posts(new_post: Post):
-    print(new_post.title)
-    print(new_post.content)
-    print(new_post.published)
-    print(new_post.rating)
-    return {"data":"new post"}
+def create_posts(post: Post):
+    # print(post.title)
+    # print(post.content)
+    print(post.dict())
+    return {"data":post}
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
