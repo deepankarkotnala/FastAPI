@@ -25,7 +25,7 @@ class Post(BaseModel):
 async def root():
     return {"message": "Hello World"}
 
-@app.post("/createposts")
+@app.post("/posts")
 def create_posts(post: Post):
     # print(post.title)
     # print(post.content)
