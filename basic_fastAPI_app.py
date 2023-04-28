@@ -74,6 +74,21 @@ def delete_post(id: int):
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 ### When we are sending back HTTP 204 after delete, then we should not send any data back. This is the expected behavior implemented in fastapi. 
 
+@app.put("/posts/{id}")
+def update_post(id: int, post: Post):
+    print(post)
+    
+    index = find_index_post(id)
+    if index == None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"post with id: {id} does not exist")
+    post_dict = post.dict()  ### convert the data received from frontend and validated by our pydantic model into a regular python dictionary
+    post_dict['id'] = id 
+    my_posts[index] = post_dict
+    return {"message":"updated post"}
+
+
+
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
 
